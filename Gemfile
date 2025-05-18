@@ -3,7 +3,6 @@ source "https://rubygems.org"
 gem "annotate"
 gem "bootsnap", require: false
 gem "devise"
-gem "ffaker"
 gem "happy_gemfile"
 gem "importmap-rails"
 gem "jbuilder"
@@ -23,6 +22,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "rspec-rails"
   gem "ffaker"
+  gem "factory_bot_rails"
 end
 
 group :development do
