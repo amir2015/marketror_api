@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 gem "annotate"
 gem "bootsnap", require: false
+gem "devise"
+gem "ffaker"
 gem "happy_gemfile"
 gem "importmap-rails"
 gem "jbuilder"
@@ -31,4 +33,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "simplecov"
+  gem "shoulda-matchers"
 end
