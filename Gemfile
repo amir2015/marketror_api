@@ -1,12 +1,12 @@
 source "https://rubygems.org"
 
-
 gem "annotate"
 gem "bootsnap", require: false
 gem "happy_gemfile"
 gem "importmap-rails"
 gem "jbuilder"
 gem "pg", "~> 1.1"
+gem "pry-rails"
 gem "puma", ">= 5.0"
 gem "rails", "~> 7.2.2", ">= 7.2.2.1"
 gem "rack-cors"
