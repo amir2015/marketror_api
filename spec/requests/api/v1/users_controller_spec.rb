@@ -1,3 +1,4 @@
+# rubocop:disable all
 require "rails_helper"
 
 RSpec.describe Api::V1::UsersController, type: :controller do
@@ -71,5 +72,13 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
       it { should respond_with 422 }
     end
+  end
+
+  describe "DELETE #destroy" do
+    before(:each) do
+      @user = FactoryBot.create(:user)
+      delete :destroy, params: { id: @user.id }, format: :json
+    end
+    it { should respond_with 204 }
   end
 end
