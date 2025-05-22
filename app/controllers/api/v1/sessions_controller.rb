@@ -18,6 +18,12 @@ module Api
         end
       end
 
+      def destroy
+        user = User.find_by(token: params[:id])
+        user.generate_token
+        user.save
+        return head 204
+      end
     end
   end
 end

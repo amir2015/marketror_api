@@ -1,38 +1,3 @@
-# # rubocop:disable all
-# require "rails_helper"
-
-# RSpec.describe "Api::V1::SessionsController", type: :controller do
-#   describe "POST #create" do
-#     before(:each) do
-#       @user = FactoryBot.create(:user)
-#     end
-
-#     context "when credentials are correct" do
-#       before(:each) do
-#         credentials = { email: @user.email, password: "123456" }
-#         post :create, params: { session: credentials }
-#       end
-#       it "returns the user record corresponding to the given credentials" do
-#         @user.reload
-#         json_response = JSON.parse(response.body, symbolize_names: true)
-#         expect(json_response[:token]).to eql @user.token
-#       end
-#       it { is_expected.to respond_with 200 }
-#     end
-
-#     context "when the credentials are incorrect" do
-#       before(:each) do
-#         credentials = { email: @user.email, password: "invalidPassword" }
-#         post :create, params: { session: credentials }
-#       end
-#       it " returns a json with an error" do
-#         json_response = JSON.parse(response.body, symbolize_names: true)
-#         expect(json_response[:error]).to eql "Invalid email or password"
-#       end
-#       it { is_expected.to respond_with 422 }
-#     end
-#   end
-# end
 # rubocop:disable all
 require "rails_helper"
 
@@ -51,7 +16,6 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
         expect(json_response[:token]).to eql(user.reload.token)
       end
 
-
       it { is_expected.to respond_with 200 }
     end
 
@@ -68,5 +32,14 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
 
       it { is_expected.to respond_with 422 }
     end
+  end
+
+  describe "DELETE #destroy" do
+    before(:each) do
+      @user = FactoryBot.create(:user)
+      sign_in(@user)
+      delete :destroy, params: { id: @user.token }
+    end
+    it { should respond_with 204 }
   end
 end
