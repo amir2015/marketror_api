@@ -5,6 +5,6 @@ FactoryBot.define do
     description { FFaker::Book.description }
     price { rand * 100 }
     published { false }
-    user_id { "1" }
+    user
   end
 end
