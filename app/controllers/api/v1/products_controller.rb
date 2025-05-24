@@ -32,6 +32,11 @@ def update
   else
     render json: { errors: product.errors }, status: 422
   end
+end
+def destroy
+  product = Product.find(params[:id])
+  product.destroy
+  head :no_content
 
 end
       private

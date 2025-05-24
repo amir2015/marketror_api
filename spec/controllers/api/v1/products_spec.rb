@@ -69,7 +69,6 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
       end
       it "render the json representation for the updated product" do
         json_response = JSON.parse(response.body, symbolize_names: true)
-        puts(json_response[:title],"updated title ----")
         expect(json_response[:title]).to eq("Updated Title")
       end
       it { is_expected.to respond_with 200 }
@@ -83,6 +82,15 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
         expect(json_response[:errors][:price]).to include("is not a number")
       end
       it { is_expected.to respond_with 422 }
+    end
+  end
+
+  describe "a specification" do
+    before(:each) do
+      @user = FactoryBot.create(:user)
+      @product = FactoryBot.create(:product, user: @user)
+      api_authorization_header @user.token
+      delete :destroy, params: { user_id: @user.id, id: @product.id }
     end
   end
 end
