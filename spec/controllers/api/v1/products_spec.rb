@@ -56,4 +56,33 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
       it { is_expected.to respond_with 422 }
     end
   end
+
+  describe "Put/PATCH #update" do
+    before(:each) do
+      @user = FactoryBot.create(:user)
+      @product = FactoryBot.create(:product, user: @user)
+      api_authorization_header @user.token
+    end
+    context "when successfully updated" do
+      before(:each) do
+        patch :update, params: { user_id: @user.id, id: @product.id, product: { title: "Updated Title" } }
+      end
+      it "render the json representation for the updated product" do
+        json_response = JSON.parse(response.body, symbolize_names: true)
+        puts(json_response[:title],"updated title ----")
+        expect(json_response[:title]).to eq("Updated Title")
+      end
+      it { is_expected.to respond_with 200 }
+    end
+    context "when product is not updated" do
+      before(:each) do
+        patch :update, params: { user_id: @user.id, id: @product.id, product: { price: "5dollars" } }
+      end
+      it "returns the json for the errors" do
+        json_response = JSON.parse(response.body, symbolize_names: true)
+        expect(json_response[:errors][:price]).to include("is not a number")
+      end
+      it { is_expected.to respond_with 422 }
+    end
+  end
 end
