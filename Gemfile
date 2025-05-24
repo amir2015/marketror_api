@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "annotate"
+gem 'active_model_serializers'
 gem "bootsnap", require: false
 gem "devise"
 gem "happy_gemfile"
