@@ -11,6 +11,10 @@ module Api
       rescue StandardError => e
         render json: { error: e.message }, status: :internal_server_error
       end
+
+      def index
+      render json: { products: Product.all }, status: :ok
+      end
     end
   end
 end
