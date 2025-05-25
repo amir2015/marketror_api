@@ -1,3 +1,4 @@
+
 #rubocop:disable all
 require "rails_helper"
 
@@ -19,7 +20,7 @@ RSpec.describe Product, type: :model do
   end
 
   describe "associations" do
-it { should belong_to(:user).optional } 
+it { should belong_to(:user).optional }
   end
 
 end

@@ -18,13 +18,21 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
 
   describe "GET #index" do
     before(:each) do
-      FactoryBot.create_list(:product, 5)
+      user = FactoryBot.create(:user)
+      FactoryBot.create_list(:product, 5, user: user)
       get :index
     end
     it "returns a list of 5 products in json format" do
       json_response = JSON.parse(response.body, symbolize_names: true)
       expect(json_response[:products].count).to eql(5)
     end
+    it "returns the user objeact into each product" do
+      product_response = JSON.parse(response.body, symbolize_names: true)
+      product_response[:products].each do |product|
+        expect(product[:user]).to be_present
+      end
+    end
+
     it { should respond_with 200 }
   end
 
@@ -69,7 +77,8 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
       end
       it "render the json representation for the updated product" do
         json_response = JSON.parse(response.body, symbolize_names: true)
-        expect(json_response[:title]).to eq("Updated Title")
+        expect(json_response[:product][:title]).to eq("Updated Title")
+
       end
       it { is_expected.to respond_with 200 }
     end
