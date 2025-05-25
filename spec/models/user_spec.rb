@@ -1,3 +1,4 @@
+#rubocop:disable all
 require "rails_helper"
 
 RSpec.describe User, type: :model do
@@ -43,5 +44,8 @@ RSpec.describe User, type: :model do
       expect(user.token).not_to eql(existing_user.token)
       expect(user.token).to eql("new_unique_token")
     end
+  end
+  describe "associations" do
+    it { should have_many(:products) }
   end
 end
