@@ -15,6 +15,7 @@ module Api
       end
 
       def index
+        return render json:  Product.find(params[:product_ids]) if params[:product_ids].present?
         render json:  Product.all, status: :ok
       end
 

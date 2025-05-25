@@ -1,5 +1,5 @@
 #rubocop:disable all
 class ProductSerializer < ActiveModel::Serializer
-  attributes :id, :title, :published, :price
-  has_one :user, serializer: UserSerializer
+attributes :id, :title, :price, :published
+  has_one :user
 end
