@@ -1,5 +1,3 @@
-
-#rubocop:disable all
 require "rails_helper"
 
 RSpec.describe Product, type: :model do
@@ -20,7 +18,23 @@ RSpec.describe Product, type: :model do
   end
 
   describe "associations" do
-it { should belong_to(:user).optional }
+    it { should belong_to(:user).optional }
   end
+  describe ".by_title" do
+    before(:each) do
+      @product1 = FactoryBot.create(:product, title: "Apple pods")
+      @product4 = FactoryBot.create(:product, title: "Apple Mac")
+      @product2 = FactoryBot.create(:product, title: "Samsung")
+      @product3 = FactoryBot.create(:product, title: "Dell")
+    end
+    context "an apple pattern is given " do
+      it "returns an array of 2 products" do
+        expect(Product.by_title("apple").count).to eq(2)
+      end
 
+      it "returns 2 products matching the pattern" do
+        expect(Product.by_title("apple").sort).to match_array([@product1, @product4])
+      end
+    end
+  end
 end
