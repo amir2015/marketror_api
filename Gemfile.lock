@@ -415,6 +415,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.2.2, >= 7.2.2.1)
   rspec-rails
+  rubocop (~> 1.75)
   rufo
   selenium-webdriver
   shoulda-matchers

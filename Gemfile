@@ -37,3 +37,5 @@ group :test do
   gem "simplecov"
   gem "shoulda-matchers"
 end
+
+gem "rubocop", "~> 1.75", :groups => [:development, :test]
