@@ -11,7 +11,7 @@ RSpec.describe Product, type: :model do
   it { should respond_to(:description) }
   it { should respond_to(:published) }
   it { should respond_to(:user_id) }
-  # it { should not_be_published }
+  
   describe "validations" do
     it { should validate_presence_of(:title) }
     it { should validate_presence_of(:price) }
@@ -21,6 +21,8 @@ RSpec.describe Product, type: :model do
 
   describe "associations" do
     it { should belong_to(:user).optional }
+    it { should have_many(:placements) }
+    it { should have_many(:orders).through(:placements) }
   end
   describe ".by_title" do
     before(:each) do

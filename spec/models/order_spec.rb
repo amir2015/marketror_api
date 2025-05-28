@@ -16,4 +16,10 @@ RSpec.describe Order, type: :model do
   describe "associations" do
     it { should belong_to(:user) }
   end
+  describe "associations" do
+    it { should have_many(:placements) }
+    it { should have_many(:products).through(:placements) }
+    it { should belong_to(:user) }
+  end
+
 end
