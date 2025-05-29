@@ -1,7 +1,7 @@
 #rubocop:disable all
 class Product < ApplicationRecord
   belongs_to :user, optional: true
-  has_many :placements
+  has_many :placements,inverse_of: :product
   has_many :orders, through: :placements
 
   validates :title, :user_id, presence: true

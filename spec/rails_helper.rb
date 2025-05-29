@@ -6,10 +6,14 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 # Prevent database truncation if the environment is production
 require "shoulda/matchers"
-require "shoulda/matchers"
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require "rspec/rails"
-
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
 rails_suppot_path = Rails.root.join("spec/support/**/*.rb")
 Dir[rails_suppot_path].each { |f| require f }
 if ENV["RAILS_ENV"] == "test"
