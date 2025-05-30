@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-  before_validation :set_total
+  before_validation :set_total,if: -> { (total.nil? || total.zero?) && product_ids.present? }
   belongs_to :user
   has_many :placements, inverse_of: :order, dependent: :destroy
   has_many :products, through: :placements

@@ -20,9 +20,15 @@ RSpec.describe Api::V1::OrdersController, type: :controller do
     before(:each) do
       current_user = FactoryBot.create(:user)
       api_authorization_header(current_user.token)
+      @product = FactoryBot.create(:product)
       @order = FactoryBot.create(:order, user: current_user)
       get :show, params: { user_id: current_user.id, id: @order.id }, format: :json
     end
+    it "returns the total of the order" do
+      json_response = JSON.parse(response.body, symbolize_names: true)
+      expect(json_response[:order][:total]).to eql(@order.total.to_s)
+    end
+
     it "returns the order with the sent id from the current-user" do
       json_response = JSON.parse(response.body, symbolize_names: true)
       order_response = json_response[:order]
