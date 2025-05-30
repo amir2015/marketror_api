@@ -6,10 +6,14 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 # Prevent database truncation if the environment is production
 require "shoulda/matchers"
-require "shoulda/matchers"
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require "rspec/rails"
-
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
 rails_suppot_path = Rails.root.join("spec/support/**/*.rb")
 Dir[rails_suppot_path].each { |f| require f }
 if ENV["RAILS_ENV"] == "test"
@@ -56,7 +60,7 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
-  config.include Devise::TestHelpers, type: :controller
+
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 
@@ -79,6 +83,9 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include RequestHelpers, type: :request
+  config.include RequestHelpers::JsonHelpers, type: :request
   config.include Warden::Test::Helpers
 end
 Warden.test_mode!

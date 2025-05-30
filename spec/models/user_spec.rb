@@ -1,4 +1,6 @@
 #rubocop:disable all
+require 'simplecov'
+SimpleCov.start 'rails'
 require "rails_helper"
 
 RSpec.describe User, type: :model do
@@ -8,13 +10,16 @@ RSpec.describe User, type: :model do
   describe "when email is present" do
     it { should be_valid }
   end
-
+describe "when email is not present" do
+  before { @user.email = "" }
+  it { should_not be_valid }
+end
   describe "when responding to email,password" do
     it { should respond_to(:email) }
     it { should respond_to(:password) }
     it { should respond_to(:password_confirmation) }
   end
-  describe "when email is not present" do
+  describe "when email is given " do
     it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
     it { should validate_presence_of(:email) }
     it { should validate_confirmation_of(:password) }
@@ -46,6 +51,7 @@ RSpec.describe User, type: :model do
     end
   end
   describe "associations" do
-    it { should have_many(:products) }
+    it { should have_many(:products).dependent(:destroy) }
+    it { should have_many(:orders).dependent(:destroy) }
   end
 end
