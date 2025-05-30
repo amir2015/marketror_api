@@ -30,4 +30,21 @@ RSpec.describe Api::V1::OrdersController, type: :controller do
     end
     it { should respond_with 200 }
   end
+
+  describe "POST #create" do
+    before(:each) do
+      current_user = FactoryBot.create(:user)
+      api_authorization_header(current_user.token)
+
+      product1 = FactoryBot.create(:product)
+      product2 = FactoryBot.create(:product)
+      order_params = { total: 50, user_id: current_user.id, product_ids: [product1.id, product2.id] }
+      post :create, params: { user_id: current_user.id, order: order_params }, format: :json
+    end
+    it "returns the created order" do
+      json_response = JSON.parse(response.body, symbolize_names: true)
+      expect(json_response[:order]).to have_key(:id)
+    end
+    it { should respond_with 201 }
+  end
 end
