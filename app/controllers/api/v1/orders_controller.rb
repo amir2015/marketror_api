@@ -13,14 +13,16 @@ class Api::V1::OrdersController < ApplicationController # rubocop:disable Style/
   def create
     order = current_user.orders.build(order_params)
 
-    render json: { order: order }, status: :created
-
-    render json: { errors: order.errors }, status: :unprocessable_entity unless order.save
+    if order.save
+      render json: { order: order }, status: :created
+    else
+      render json: { errors: order.errors }, status: :unprocessable_entity
+    end
   end
 
   private
 
   def order_params
-    params.require(:order).permit(:total, :user_id, product_ids: [])
+    params.require(:order).permit( :user_id, product_ids: [])
   end
 end
