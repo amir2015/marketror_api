@@ -36,6 +36,7 @@ group :test do
   gem "selenium-webdriver"
   gem "simplecov"
   gem "shoulda-matchers"
+  gem 'email_spec'
 end
 
 gem "rubocop", "~> 1.75", :groups => [:development, :test]
