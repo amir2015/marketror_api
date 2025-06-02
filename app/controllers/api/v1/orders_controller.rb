@@ -11,19 +11,22 @@ class Api::V1::OrdersController < ApplicationController # rubocop:disable Style/
   end
 
   def create
-    order = current_user.orders.build(order_params)
+    order = current_user.orders.build
 
-    if order.save
-      OrderMailer.send_confirmation(order).deliver_now
-      render json: { order: order }, status: :created
-    else
-      render json: { errors: order.errors }, status: :unprocessable_entity
-    end
+    order.build_placements_with_products_ids_and_quantities(
+      params[:order][:product_ids_and_quantities]
+    )
+
+    return render json: { errors: order.errors }, status: 422 unless order.save
+
+    order.reload
+    OrderMailer.send_confirmation(order).deliver_now
+    render json: { order: order, products: order.products }, status: 201
   end
 
   private
 
   def order_params
-    params.require(:order).permit( :user_id, product_ids: [])
+    params.require(:order).permit(:user_id, product_ids: [])
   end
 end
