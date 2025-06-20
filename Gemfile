@@ -38,4 +38,4 @@ group :test do
   gem "shoulda-matchers"
 end
 
-gem "rubocop", "~> 1.75", :groups => [:development, :test]
+gem "rubocop", "~> 1.77", :groups => [:development, :test]
